@@ -4,19 +4,30 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { ArrowUpRight, Check } from 'lucide-react'
 import Image from 'next/image'
 import { useState } from 'react'
-import { type Project, projectFilters, projects } from '@/lib/site-data'
+import { type Project, type ProjectCategory, projectFilters, projects } from '@/lib/site-data'
 import { cn } from '@/lib/utils'
 import { useBooking } from './booking-provider'
 import { Modal } from './modal'
 import { SectionHeading } from './section-heading'
 
-const badgeStyles: Record<Project['category'], string> = {
+const badgeStyles: Record<ProjectCategory, string> = {
   'AI Ads': 'border-brand-cyan/30 bg-brand-cyan/10 text-brand-cyan',
   Automation: 'border-brand-blue/30 bg-brand-blue/10 text-sky-300',
   'Workflow AI': 'border-brand-violet/30 bg-brand-violet/10 text-violet-300',
 }
 
+// Google Drive view URL ko embed iframe preview format me convert karne ke liye helper
+function getDriveEmbedUrl(url?: string) {
+  if (!url) return null
+  if (url.includes('drive.google.com') && url.includes('/view')) {
+    return url.replace('/view', '/preview')
+  }
+  return url
+}
+
 function ProjectCard({ project, onOpen }: { project: Project; onOpen: () => void }) {
+  const categoryKey = project.category as ProjectCategory
+
   return (
     <motion.article
       layout
@@ -39,7 +50,7 @@ function ProjectCard({ project, onOpen }: { project: Project; onOpen: () => void
         <span
           className={cn(
             'absolute top-4 left-4 rounded-full border px-3 py-1 text-xs font-medium backdrop-blur-md',
-            badgeStyles[project.category],
+            badgeStyles[categoryKey] || badgeStyles.Automation,
           )}
         >
           {project.category}
@@ -131,24 +142,46 @@ export function Projects() {
       <Modal open={active !== null} onClose={() => setActive(null)} title={active?.title ?? ''}>
         {active && (
           <div className="flex flex-col gap-6 p-6">
-            <div className="relative aspect-video overflow-hidden rounded-xl border border-white/10">
-              <Image
-                src={active.image || '/placeholder.svg'}
-                alt={`${active.title} interface preview`}
-                fill
-                sizes="(min-width: 768px) 672px, 100vw"
-                className="object-cover"
-              />
+            {/* Media Banner: Drive Embed vs Direct MP4 Video vs Image Fallback */}
+            <div className="relative aspect-video overflow-hidden rounded-xl border border-white/10 bg-black">
+              {active.videoUrl?.includes('drive.google.com') || active.embedVideoUrl ? (
+                <iframe
+                  src={getDriveEmbedUrl(active.videoUrl) || active.embedVideoUrl}
+                  className="h-full w-full border-0"
+                  allow="autoplay; encrypted-media; picture-in-picture"
+                  allowFullScreen
+                  title={`${active.title} Demo Video`}
+                />
+              ) : active.videoUrl ? (
+                <video
+                  src={active.videoUrl}
+                  controls
+                  playsInline
+                  poster={active.image}
+                  className="h-full w-full object-contain"
+                />
+              ) : (
+                <Image
+                  src={active.image || '/placeholder.svg'}
+                  alt={`${active.title} interface preview`}
+                  fill
+                  sizes="(min-width: 768px) 672px, 100vw"
+                  className="object-cover"
+                />
+              )}
             </div>
+
             <span
               className={cn(
                 'self-start rounded-full border px-3 py-1 text-xs font-medium',
-                badgeStyles[active.category],
+                badgeStyles[active.category as ProjectCategory] || badgeStyles.Automation,
               )}
             >
               {active.category}
             </span>
+
             <p className="leading-relaxed text-pretty text-muted-foreground">{active.description}</p>
+
             <dl className="grid grid-cols-3 gap-3">
               {active.metrics.map((m) => (
                 <div key={m.label} className="glass rounded-xl p-4">
@@ -157,9 +190,63 @@ export function Projects() {
                 </div>
               ))}
             </dl>
+
+            {/* Structured Case Study Section */}
+            {active.caseStudy && (
+              <div className="flex flex-col gap-4 rounded-xl border border-white/10 bg-white/[0.02] p-5">
+                <h3 className="text-sm font-semibold text-foreground uppercase tracking-wider text-brand-cyan">
+                  Case Study Overview
+                </h3>
+
+                <div>
+                  <h4 className="text-xs font-medium text-rose-400">The Problem</h4>
+                  <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+                    {active.caseStudy.problem}
+                  </p>
+                </div>
+
+                <div>
+                  <h4 className="text-xs font-medium text-emerald-400">The Solution</h4>
+                  <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+                    {active.caseStudy.solution}
+                  </p>
+                </div>
+
+                {active.caseStudy.architecture && (
+                  <div>
+                    <h4 className="text-xs font-medium text-sky-400 mb-1.5">Architecture Workflow</h4>
+                    <div className="flex flex-wrap gap-1.5">
+                      {active.caseStudy.architecture.map((step, idx) => (
+                        <span
+                          key={idx}
+                          className="rounded-md border border-sky-500/20 bg-sky-500/10 px-2 py-0.5 text-[11px] text-sky-300"
+                        >
+                          {idx + 1}. {step}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {active.caseStudy.results && (
+                  <div>
+                    <h4 className="text-xs font-medium text-brand-cyan mb-1.5">Key Results</h4>
+                    <ul className="flex flex-col gap-1">
+                      {active.caseStudy.results.map((res, i) => (
+                        <li key={i} className="flex items-center gap-2 text-xs text-foreground/90">
+                          <span className="size-1.5 rounded-full bg-brand-cyan" />
+                          {res}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            )}
+
             <div className="grid gap-6 sm:grid-cols-2">
               <div>
-                <h3 className="mb-3 text-sm font-semibold">Highlights</h3>
+                <h3 className="mb-3 text-sm font-semibold text-foreground">Highlights</h3>
                 <ul className="flex flex-col gap-2">
                   {active.highlights.map((h) => (
                     <li key={h} className="flex items-start gap-2 text-sm text-foreground/85">
@@ -169,24 +256,29 @@ export function Projects() {
                   ))}
                 </ul>
               </div>
+
               <div>
-                <h3 className="mb-3 text-sm font-semibold">Tech stack</h3>
+                <h3 className="mb-3 text-sm font-semibold text-foreground">Tech stack</h3>
                 <ul className="flex flex-wrap gap-2">
                   {active.stack.map((s) => (
-                    <li key={s} className="rounded-md border border-white/10 bg-white/5 px-2.5 py-1 text-xs">
+                    <li
+                      key={s}
+                      className="rounded-md border border-white/10 bg-white/5 px-2.5 py-1 text-xs text-foreground/80"
+                    >
                       {s}
                     </li>
                   ))}
                 </ul>
               </div>
             </div>
+
             <button
               type="button"
               onClick={() => {
                 setActive(null)
                 openBooking()
               }}
-              className="rounded-xl bg-gradient-to-r from-brand-cyan via-brand-blue to-brand-violet px-5 py-3 font-semibold text-white"
+              className="rounded-xl bg-gradient-to-r from-brand-cyan via-brand-blue to-brand-violet px-5 py-3 font-semibold text-white transition-opacity hover:opacity-90"
             >
               Build something like this
             </button>
