@@ -43,26 +43,26 @@ export const projects: Project[] = [
     ],
   },
   {
-    id: 'invoice-automation',
-    title: 'Enterprise Invoice & Document Automation',
-    category: 'Automation',
-    summary:
-      'Automated document processing workflow on n8n with zero-data-loss validation.',
-    description:
-      'An end-to-end document pipeline that ingests invoices from email and cloud drives, extracts line items with AI, validates against purchase orders, and syncs approved records to the ERP with full audit trails and human-in-the-loop exception handling.',
-    image: '/projects/invoice-automation.png',
-    metrics: [
-      { label: 'Docs / month', value: '25k' },
-      { label: 'Accuracy', value: '99.7%' },
-      { label: 'Manual work', value: '-85%' },
-    ],
-    stack: ['n8n', 'OCR + LLM', 'PostgreSQL', 'ERP Sync'],
-    highlights: [
-      'Multi-step validation with zero data loss',
-      'Exception queue routed to finance via Slack',
-      'Complete audit trail for compliance',
-    ],
-  },
+  id: 'ai-invoice-manager',
+  title: 'AI Invoice Manager',
+  category: 'Automation',
+  summary:
+    'n8n workflow that reads invoices from Gmail, extracts the data with AI and logs it to Excel automatically.',
+  description:
+    'An end-to-end invoice pipeline built on n8n. It watches Gmail for invoice attachments (PDF, JPG, PNG, WebP), reads text directly or with Claude vision OCR for scans and photos, extracts key fields with GPT-4o, validates every value against the source document, blocks duplicates, converts foreign currencies to PKR at the invoice-date rate, and appends a structured row to Excel. A separate error-alert workflow emails the team if any run fails.',
+  image: '/projects/invoice-auto.jfif',
+  metrics: [
+    { label: 'Pipeline steps', value: '5' },
+    { label: 'File formats', value: '4' },
+    { label: 'Excel fields', value: '12' },
+  ],
+  stack: ['n8n', 'GPT-4o', 'Claude Vision', 'Gmail', 'Excel'],
+  highlights: [
+    'Scans, photos and PDFs handled with automatic OCR fallback',
+    'Fact-check and duplicate protection before any row is saved',
+    'Doubtful invoices flagged "Needs Review" with the exact reason',
+  ],
+},
   {
     id: 'lead-qualification-agent',
     title: 'AI Lead Qualification & CRM Sync Agent',
