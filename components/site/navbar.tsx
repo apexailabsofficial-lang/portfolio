@@ -81,7 +81,7 @@ export function Navbar() {
             transition={{ duration: 0.3, ease: 'easeOut' }}
             className="overflow-hidden border-t border-white/10 bg-[#0A0D14]/95 backdrop-blur-xl md:hidden"
           >
-            <ul className="flex flex-col gap-1 px-4 py-6">
+            <ul className="flex flex-col gap-1 px-4 py-4">
               {navLinks.map((link, i) => (
                 <motion.li
                   key={link.href}
@@ -92,21 +92,21 @@ export function Navbar() {
                   <a
                     href={link.href}
                     onClick={() => setMenuOpen(false)}
-                    className="block rounded-xl px-4 py-3.5 font-display text-2xl font-medium transition-colors hover:bg-white/5"
+                    className="block rounded-xl px-4 py-2.5 font-display text-lg font-medium text-foreground/90 transition-colors hover:bg-white/5 hover:text-white"
                   >
                     {link.label}
                   </a>
                 </motion.li>
               ))}
             </ul>
-            <div className="px-8">
+            <div className="px-6 pt-2">
               <button
                 type="button"
                 onClick={() => {
                   setMenuOpen(false)
                   openBooking()
                 }}
-                className="w-full rounded-xl bg-gradient-to-r from-brand-cyan to-brand-violet px-5 py-3.5 font-semibold text-white"
+                className="w-full rounded-xl bg-gradient-to-r from-brand-cyan to-brand-violet px-5 py-3 text-sm font-semibold text-white"
               >
                 Book a Discovery Call
               </button>

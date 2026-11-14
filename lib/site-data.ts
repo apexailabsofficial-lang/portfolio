@@ -79,11 +79,11 @@ export const projects: Project[] = [
     description:
       'An automated AI production engine designed for direct-response marketing. It generates realistic AI avatars, authentic script hooks, voiceovers, auto-captions, and product overlays in 9:16 vertical format for high-converting social campaigns.',
     image: '/projects/ecommerce-ad-pipeline.png',
-    videoUrl: '/videos/ugc-ads-demo.mp4', // Local MP4 ya Drive link
+    videoUrl: 'https://drive.google.com/file/d/1FyVJoZgNJ9A_fShB0m3e0BvFK11TNmIA/view?usp=drive_link', // Local MP4 ya Drive link
     metrics: [
-      { label: 'Ad Format', value: '9:16 Vertical' },
-      { label: 'Hook Variations', value: '5+ per Brief' },
-      { label: 'Turnaround', value: '<24 Hours' },
+      { label: 'Ad Format', value: '9:16' },
+      { label: 'Hook Variants', value: '5+' },
+      { label: 'Turnaround', value: '24h' },
     ],
     stack: ['AI Voiceovers', 'Auto Captions', 'Direct Response Prompts', 'CapCut API'],
     highlights: [
@@ -115,9 +115,9 @@ export const projects: Project[] = [
     image: '/projects/ads-creative-engine.png',
     videoUrl: 'https://drive.google.com/file/d/1Dk0kex9n39lvvy0xu8rAWLlZiUF42qNw/view?usp=sharing', // Pie In The Sky ad video path
     metrics: [
-      { label: 'Visual Quality', value: '4K Cinematic' },
-      { label: 'Production Cost', value: '-80% Lower' },
-      { label: 'Ad Type', value: 'Brand Ads' },
+      { label: 'Visual Quality', value: '4K HDR' },
+      { label: 'Production Cost', value: '-80%' },
+      { label: 'Ad Format', value: 'Brand Ads' },
     ],
     stack: ['Google Flow', 'Gen AI Video', 'Cinematic Sound Design', 'Color Grading'],
     highlights: [

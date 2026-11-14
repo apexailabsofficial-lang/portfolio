@@ -18,23 +18,25 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       {
-        url: '/icon-light-32x32.png',
+        url: '/fav-iconv2.png',
         media: '(prefers-color-scheme: light)',
       },
       {
-        url: '/icon-dark-32x32.png',
+        url: '/fav-iconv2.png',
         media: '(prefers-color-scheme: dark)',
       },
       {
-        url: '/icon.svg',
+        url: '/fav-iconv2.png',
         type: 'image/svg+xml',
       },
     ],
-    apple: '/apple-icon.png',
+    apple: '/fav-iconv2.png',
   },
 }
 
 export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
   colorScheme: 'dark',
   themeColor: '#0A0D14',
 }
@@ -45,9 +47,14 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable}`}>
-      <body className="antialiased">
-        {children}
+    <html
+      lang="en"
+      className={`${inter.variable} ${spaceGrotesk.variable} overflow-x-hidden`}
+    >
+      <body className="overflow-x-hidden antialiased">
+        <div className="relative flex min-h-screen w-full flex-col overflow-x-hidden">
+          {children}
+        </div>
         <CustomCursor />
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>

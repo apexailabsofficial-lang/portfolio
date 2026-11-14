@@ -32,6 +32,7 @@ function ProjectCard({ project, onOpen }: { project: Project; onOpen: () => void
     <motion.article
       layout
       initial={{ opacity: 0, scale: 0.96 }}
+      onClick={onOpen}
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.96 }}
       transition={{ duration: 0.35 }}
@@ -61,22 +62,34 @@ function ProjectCard({ project, onOpen }: { project: Project; onOpen: () => void
           <h3 className="text-xl font-semibold text-balance">{project.title}</h3>
           <p className="leading-relaxed text-pretty text-muted-foreground">{project.summary}</p>
         </div>
-        <dl className="grid grid-cols-3 gap-2">
-          {project.metrics.map((metric) => (
-            <div key={metric.label} className="rounded-lg border border-white/5 bg-white/[0.03] p-3">
-              <dd className="font-display text-lg font-semibold text-gradient">{metric.value}</dd>
-              <dt className="text-xs text-muted-foreground">{metric.label}</dt>
-            </div>
-          ))}
-        </dl>
-        <button
-          type="button"
-          onClick={onOpen}
-          className="mt-auto inline-flex items-center gap-1.5 self-start text-sm font-semibold text-brand-cyan transition-colors hover:text-foreground"
-        >
-          View case study
-          <ArrowUpRight className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-        </button>
+
+        {/* mt-auto yahan lagane se metrics aur button dono neeche lock ho jayenge */}
+        <div className="mt-auto flex flex-col gap-5">
+          <dl className="grid grid-cols-3 gap-2">
+            {project.metrics.map((metric) => (
+              <div
+                key={metric.label}
+                className="min-w-0 rounded-lg border border-white/5 bg-white/[0.03] p-2.5 sm:p-3"
+              >
+                <dd className="font-display text-sm font-semibold leading-tight text-gradient sm:text-lg">
+                  {metric.value}
+                </dd>
+                <dt className="mt-1 text-[11px] leading-tight text-muted-foreground sm:text-xs">
+                  {metric.label}
+                </dt>
+              </div>
+            ))}
+          </dl>
+
+          <button
+            type="button"
+            onClick={onOpen}
+            className="inline-flex items-center gap-1.5 self-start text-sm font-semibold text-brand-cyan transition-colors hover:text-foreground"
+          >
+            View case study
+            <ArrowUpRight className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+          </button>
+        </div>
       </div>
     </motion.article>
   )
