@@ -145,8 +145,8 @@ export const projectFilters: ('All' | ProjectCategory)[] = [
 
 export const contactInfo = {
   email: 'apexailabs.official@gmail.com',
-  whatsapp: '+92 317 2951022',
-  whatsappHref: 'https://wa.me/923001234567',
+  whatsapp: '+92 312 0280904',
+  whatsappHref: 'https://wa.me/923120280904',
   linkedin: 'linkedin.com/in/muhammad-anas-cyberpro',
   linkedinHref: 'https://linkedin.com/in/muhammad-anas-cyberpro',
 

@@ -32,7 +32,7 @@ const founders: Founder[] = [
     role: 'Co-Founder',
     bio: 'Leads growth and client success, turning AI capabilities into high-performing campaigns and measurable business outcomes.',
     tags: ['AI Growth Marketing', 'Campaign Optimization', 'Client Solutions'],
-    linkedin: 'https://linkedin.com/in/muhammad-arshan-khan',
+    linkedin: 'https://www.linkedin.com/in/muhammad-arshan-khan/',
     twitter: 'https://x.com/arshankhan',
     gradient: 'from-brand-blue to-brand-violet',
   },

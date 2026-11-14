@@ -1,11 +1,11 @@
 import { Mail } from 'lucide-react'
 import { contactInfo, navLinks } from '@/lib/site-data'
-import { LinkedinIcon, XIcon } from './brand-icons'
+import { LinkedinIcon, XIcon, InstagramIcon } from './brand-icons'
 import { Logo } from './logo'
 
 const socials = [
   { label: 'LinkedIn', href: contactInfo.linkedinHref, icon: LinkedinIcon },
-  { label: 'X (Twitter)', href: 'https://x.com/apexailabs', icon: XIcon },
+  { label: 'Instagram', href: 'https://www.instagram.com/apexailabs.official/', icon: InstagramIcon },
   { label: 'Email', href: `mailto:${contactInfo.email}`, icon: Mail },
 ]
 
